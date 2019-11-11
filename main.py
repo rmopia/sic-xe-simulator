@@ -1,5 +1,5 @@
 
-import firstpass
+import firstpass as fp
 
 format1 = ["FIX", "FLOAT", "HIO", "NORM", "SIO", "TIO"]
 format2 = ["ADDR", "COMPR", "DIVR", "MULR", "RMO", "SHIFTL", "SHIFTR", "SUBR", "SVC", "TIXR"]
@@ -15,46 +15,37 @@ def main():
     for item in content:
         new_content.append(item.split())
 
-    print(new_content)
+    # print(new_content)
 
     start_addr = 0x0  # initial address # can change if specified
 
     if new_content[0]:  # or new_content contains START
-        print(new_content[0][-1])
+        # print(new_content[0][-1])
         if "#" in new_content[0][-1]:
             start_addr = new_content[0][-1].replace("#", "")
         else:
             start_addr = new_content[0][-1]
 
-    print("starting address: " + '0x' + str(start_addr))
+    # print("starting address: " + '0x' + str(start_addr))
     # print(len(new_content))  # limiter to find this amount of addresses
 
     loc = [start_addr]
-    print(loc)
+    # print(loc)
 
     for line in new_content:
         addr(line, loc)
-        if len(line) == 2:
-            print("2 items")
-        elif len(line) == 3:
-            print("3 items")
 
-        for element in line:
-            if element == "RESW":
-                print("pass1")
-            else:
-                print()
-
-    print(loc)
     for item in range(len(loc)):
         if "0x" in loc[item]:
             loc[item] = loc[item].replace("0x", "")
 
-    print(loc)
+    # print(loc)
+
+    fp_dict = fp.pass1(loc, new_content)
+    print(fp_dict)
 
 
 def addr(line, address_locations):
-    print(line)
     # format 4 check
     if "+" in (line[0], line[1]):
         location = int(str(address_locations[-1]), 16) + int('4', 16)
