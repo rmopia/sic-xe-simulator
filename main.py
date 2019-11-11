@@ -1,5 +1,6 @@
 
 import firstpass as fp
+import secondpass as sp
 
 format1 = ["FIX", "FLOAT", "HIO", "NORM", "SIO", "TIO"]
 format2 = ["ADDR", "COMPR", "DIVR", "MULR", "RMO", "SHIFTL", "SHIFTR", "SUBR", "SVC", "TIXR"]
@@ -15,8 +16,6 @@ def main():
     for item in content:
         new_content.append(item.split())
 
-    # print(new_content)
-
     start_addr = 0x0  # initial address # can change if specified
 
     if new_content[0]:  # or new_content contains START
@@ -25,9 +24,6 @@ def main():
             start_addr = new_content[0][-1].replace("#", "")
         else:
             start_addr = new_content[0][-1]
-
-    # print("starting address: " + '0x' + str(start_addr))
-    # print(len(new_content))  # limiter to find this amount of addresses
 
     loc = [start_addr]
     # print(loc)
@@ -42,7 +38,10 @@ def main():
     # print(loc)
 
     fp_dict = fp.pass1(loc, new_content)
-    print(fp_dict)
+    pc_dict = fp.find_pc(loc, new_content)
+    addr_dict = fp.find_addr(loc, new_content)
+
+    sp.pass2(loc, new_content, fp_dict, pc_dict, addr_dict)
 
 
 def addr(line, address_locations):
