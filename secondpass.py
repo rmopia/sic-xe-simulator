@@ -4,7 +4,9 @@ import numpy as np
 format1 = ["FIX", "FLOAT", "HIO", "NORM", "SIO", "TIO"]
 format2 = ["ADDR", "COMPR", "DIVR", "MULR", "RMO", "SHIFTL", "SHIFTR", "SUBR", "SVC", "TIXR"]
 assignments = ["RESW", "WORD", "RESB", "BYTE"]
-OPTAB = {"ADD": "18", "LDA": "00", "LDX": "04", "STA": "0C", "COMPR": "A0", "JLT": "38"}
+OPTAB = {"ADD": "18", "LDA": "00", "LDS": "6C", "LDX": "04", "STA": "0C", "COMPR": "A0", "JLT": "38", "SUB": "1C",
+         "MULR": "98"}
+registers = {"A": 0, "X": 0, "L": 0, "B": 0, "S": 0, "T": 0, "F": 0, "PC": 0, "SW": 0}
 
 sp_dict = {}
 sp_list = []
@@ -77,40 +79,76 @@ def format3(item, base_dict, fp_dict, pc_dict, addr_dict):
     s = ' '.join(item)
     # print(s)
 
-    disp = 0
+    disp = ''
 
     if flag_string == '110000':
         # disp = TA
-        print("op c")
+        TA = int(fp_dict[item[-1]], 16)
+        disp = np.binary_repr(TA, 12)
+
     elif flag_string == '110010':  # JLT LOOP tests 2's compliment!
         # disp = TA - PC
-        print("TA: " + fp_dict[item[-1]])
-        print("PC: " + pc_dict[s])
+        # print("TA: " + fp_dict[item[-1]])
+        # print("PC: " + pc_dict[s])
         TA = int(fp_dict[item[-1]], 16)
         PC = int(pc_dict[s], 16)
         res = TA - PC
-        print(hex(res))
-        print(np.binary_repr(res, 12))
+        # print(hex(res))
+        # print(np.binary_repr(res, 12))
         disp = np.binary_repr(res, 12)
 
-        print("op m")
     elif flag_string == '110100':
+        # disp = TA - BASE
         print("op m")
     elif flag_string == '111000':
+        # disp = TA - X
         print("op c,x")
     elif flag_string == '111010':
+        # disp = TA - PC - X
         print("op m,x")
     elif flag_string == '111100':
+        # disp = TA - BASE - X
         print("op m,x")
     elif flag_string == '100000':
+        # disp = TA
+        addr = str(item[-1]).replace("@", "")
+        TA = int(addr, 16)
+        # print(np.binary_repr(TA, 12))
+        disp = np.binary_repr(TA, 12)
         print("op @c")
     elif flag_string == '100010':
+        # disp = TA - PC
+        addr = str(item[-1]).replace("@", "")
+        TA = int(addr, 16)
+        PC = int(pc_dict[s], 16)
+        res = TA - PC
+        # print(np.binary_repr(res, 12))
+        disp = np.binary_repr(res, 12)
         print("op @m")
     elif flag_string == '100100':
+        # disp = TA - BASE
         print("op @m")
     elif flag_string == '010000':
+        # disp = TA
+        val = str(item[-1]).replace("#", "")
+        TA = int(val, 16)
+        # print(np.binary_repr(TA, 12))
+        disp = np.binary_repr(TA, 12)
         print("op #c")
     elif flag_string == '010010':
+        # disp = TA - PC
+        value = str(item[-1]).replace("#", "")
+        TA = int(value, 16)
+        PC = int(pc_dict[s], 16)
+        # print(TA)
+        # print(PC)
+        res = TA - PC
+        # print(hex(res))
+        # print(np.binary_repr(res, 12))
+        disp = np.binary_repr(res, 12)
         print("op #m")
     elif flag_string == '010100':
+        # disp = TA - BASE
         print("op #m")
+
+    print(flag_string + disp)

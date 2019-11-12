@@ -8,7 +8,7 @@ assignments = ["RESW", "WORD", "RESB", "BYTE"]
 
 
 def main():
-    f = open("sicxe1", "r")
+    f = open("sicxe2", "r")
     content = f.readlines()
     f.close()
 
@@ -16,9 +16,9 @@ def main():
     for item in content:
         new_content.append(item.split())
 
-    start_addr = 0x0  # initial address # can change if specified
+    start_addr = "0"  # initial address # can change if specified
 
-    if new_content[0]:  # or new_content contains START
+    if "START" in new_content[0]:  # or new_content contains START
         # print(new_content[0][-1])
         if "#" in new_content[0][-1]:
             start_addr = new_content[0][-1].replace("#", "")

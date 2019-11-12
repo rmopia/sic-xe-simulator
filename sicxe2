@@ -1,0 +1,7 @@
+        LDS     #4
+        LDA     BETA
+        MULR    S,A
+        SUB     #9
+        STA     ALPHA
+ALPHA   RESW    1
+BETA    RESW    1

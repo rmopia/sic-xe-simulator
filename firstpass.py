@@ -28,7 +28,7 @@ def find_pc(loc, new_content):
         elif bool(set(item).intersection(assignments)):
             pass
         else:
-            pc_dict[' '.join(item)] = loc[counter]
+            pc_dict[' '.join(item)] = loc[counter + 1]
         counter += 1
     return pc_dict
 
@@ -42,6 +42,6 @@ def find_addr(loc, new_content):
         elif bool(set(item).intersection(assignments)):
             pass
         else:
-            addr_dict[' '.join(item)] = loc[counter - 1]
+            addr_dict[' '.join(item)] = loc[counter]
         counter += 1
     return addr_dict
