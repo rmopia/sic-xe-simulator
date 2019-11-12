@@ -41,7 +41,7 @@ def main():
     pc_dict = fp.find_pc(loc, new_content)
     addr_dict = fp.find_addr(loc, new_content)
 
-    sp.pass2(loc, new_content, fp_dict, pc_dict, addr_dict)
+    sp.pass2(loc, new_content, fp_dict, pc_dict)
 
 
 def addr(line, address_locations):
