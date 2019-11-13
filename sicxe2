@@ -1,6 +1,6 @@
         LDS     #4
         LDA     BETA
-        MULR    S,A
+CLOOP   MULR    S,A
         SUB     #9
         STA     ALPHA
 ALPHA   RESW    1

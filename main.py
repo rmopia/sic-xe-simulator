@@ -8,7 +8,7 @@ assignments = ["RESW", "WORD", "RESB", "BYTE"]
 
 
 def main():
-    f = open("sicxe2", "r")
+    f = open("sicxe1", "r")
     content = f.readlines()
     f.close()
 
@@ -19,7 +19,6 @@ def main():
     start_addr = "0"  # initial address # can change if specified
 
     if "START" in new_content[0]:  # or new_content contains START
-        # print(new_content[0][-1])
         if "#" in new_content[0][-1]:
             start_addr = new_content[0][-1].replace("#", "")
         else:
@@ -41,12 +40,12 @@ def main():
     pc_dict = fp.find_pc(loc, new_content)
     addr_dict = fp.find_addr(loc, new_content)
 
-    sp.pass2(loc, new_content, fp_dict, pc_dict)
+    sp.pass2(new_content, fp_dict, pc_dict)
 
 
 def addr(line, address_locations):
     # format 4 check
-    if "+" in (line[0], line[1]):
+    if "+" in line[0] or "+" in line[1]:
         location = int(str(address_locations[-1]), 16) + int('4', 16)
         address_locations.append(hex(location))
     # format 2 check

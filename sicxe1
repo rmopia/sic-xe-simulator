@@ -1,7 +1,8 @@
-        START   #1000
-        LDX     #10
-        LDA     #3
-LOOP    STA     LOC1
-        COMPR   A,X
-        JLT     LOOP
-LOC1    RESW    1
+        START   1000
+CLOOP   +LDS    ALPHA,X
+        LDA     BETA
+        MULR    S,A
+        SUB     #9
+        STA     ALPHA
+ALPHA   RESW    1
+BETA    RESW    1

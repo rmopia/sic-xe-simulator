@@ -23,7 +23,9 @@ def find_pc(loc, new_content):
     counter = 0
     # TODO add limiter to skip final item that isn't an END or assignment line
     for item in new_content:
-        if "START" in item or "END" in item or "BASE" in item:
+        if "START" in item or "BASE" in item:
+            counter -= 1
+        elif "END" in item:
             pass
         elif bool(set(item).intersection(assignments)):
             pass
@@ -37,7 +39,9 @@ def find_addr(loc, new_content):
     addr_dict = {}
     counter = 0
     for item in new_content:
-        if "START" in item or "END" in item or "BASE" in item:
+        if "START" in item or "BASE" in item:
+            counter -= 1
+        elif "END" in item:
             pass
         elif bool(set(item).intersection(assignments)):
             pass
